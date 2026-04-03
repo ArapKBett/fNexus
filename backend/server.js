@@ -16,13 +16,10 @@ app.use('/api/contacts', contactsRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/analytics', analyticsRouter);
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
-  });
-}
+// Health check
+app.get('/', (req, res) => {
+  res.json({ status: 'online', service: 'NEXUS API', version: '1.0' });
+});
 
 app.listen(PORT, () => {
   console.log(`[NEXUS] Server operational on port ${PORT}`);
